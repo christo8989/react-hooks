@@ -1,7 +1,14 @@
-import React from "react"
+import React, { Fragment } from "react"
+import Button from "../components/button";
+import { Link } from "@reach/router";
 
 export default function Dashboard() {
   return (
-    <div>Dashboard</div>
+    <Fragment>
+      <Button as={Link} to="/compose/tweet">
+        Tweet
+      </Button>
+      <div>Dashboard</div>
+    </Fragment>
   );
 }

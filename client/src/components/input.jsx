@@ -10,3 +10,9 @@ const Input = styled.input`
 `
 
 export default Input
+
+export const Textarea = styled(Input).attrs({
+  as: "textarea"
+})`
+  resize: vertical;
+`

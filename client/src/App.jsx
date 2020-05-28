@@ -1,5 +1,6 @@
 import React from 'react';
 import Login from "./pages/login"
+import Pages from "./pages"
 import styled, { createGlobalStyle } from 'styled-components'
 import Container from './components/container';
 import { useIsLoggedIn } from './hooks/login';
@@ -40,7 +41,7 @@ function App() {
   return (
     <AppContainer>
       <GlobalStyles />
-      {isLoggedIn ? "Logged In!" : <Login />}
+      {isLoggedIn ? <Pages /> : <Login />}
     </AppContainer>
   );
 }
