@@ -36,6 +36,18 @@ class UserAPI extends DataSource {
     })
     return res && res.id ? res.get() : false;
   }
+
+  async getTweets({ userId }) {
+    const tweets = userId 
+      ? await this.store.tweets.findAll({ where: { userId }})
+      : await this.store.tweets.findAll()
+    return tweets && tweets.length ? tweets.map(get) : []
+  }
 }
 
 module.exports = UserAPI;
+
+
+function get(obj) {
+  return obj.get()
+}

@@ -2,6 +2,11 @@ module.exports = {
   Query: {
     me: async (_, __, { dataSources }) => dataSources.userAPI.findOrCreateUser(),
     tweet: async (_, { id }, { dataSources }) => dataSources.userAPI.getTweetById({ id }),
+    tweets: async (_, { userId }, { dataSources }) => {
+      const tweets = await dataSources.userAPI.getTweets(userId ? { userId } : {})
+      tweets.reverse()
+      return tweets
+    }
   },
   Mutation: {
     login: async (_, { email }, { dataSources }) => {
