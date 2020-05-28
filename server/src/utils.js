@@ -52,7 +52,6 @@ module.exports.createStore = () => {
     createdAt: SQL.DATE,
     updatedAt: SQL.DATE,
     email: SQL.STRING,
-    token: SQL.STRING,
   });
 
   const tweets = db.define('tweet', {

@@ -6,12 +6,27 @@ const typeDefs = gql`
     email: String!
   }
 
+  type Tweet {
+    id: ID!
+    userId: ID!
+    text: String!
+    createdAt: String!
+    updatedAt: String!
+  }
+
   type Query {
     me: User
   }
 
   type Mutation {
-    login(email: String): String # login token
+    login(email: String!): String # login token
+    addTweet(text: String!): TweetUpdateResponse
+  }
+
+  type TweetUpdateResponse {
+    success: Boolean!
+    message: String!
+    tweet: Tweet
   }
 `;
 

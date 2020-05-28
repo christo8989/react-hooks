@@ -23,6 +23,12 @@ class UserAPI extends DataSource {
     const users = await this.store.users.findOrCreate({ where: { email } });
     return users && users[0] ? users[0] : null;
   }
+
+  async addTweet({ text }) {
+    const userId = this.context.user.id;
+    const res = await this.store.tweets.create({ userId, text });
+    return res && res.id ? res.get() : false;
+  }
 }
 
 module.exports = UserAPI;
