@@ -1,13 +1,6 @@
-import React from 'react';
 import gql from "graphql-tag";
 import { useQuery } from '@apollo/react-hooks';
-import Button from "../components/button"
-import Input from "../components/input"
-import styled from 'styled-components'
-import Container from '../components/container';
-import useTextInput from "../hooks/input"
-import { useApolloClient, useMutation } from "@apollo/react-hooks";
-import Loading from '../components/loading';
+import { useMutation } from "@apollo/react-hooks";
 
 export const IS_LOGGED_IN = gql`
   query isLoggedIn {
