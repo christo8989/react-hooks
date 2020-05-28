@@ -1,6 +1,7 @@
 module.exports = {
   Query: {
-    me: (_, __, { dataSources }) => dataSources.userAPI.findOrCreateUser()
+    me: async (_, __, { dataSources }) => dataSources.userAPI.findOrCreateUser(),
+    tweet: async (_, { id }, { dataSources }) => dataSources.userAPI.getTweetById({ id }),
   },
   Mutation: {
     login: async (_, { email }, { dataSources }) => {

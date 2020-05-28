@@ -29,6 +29,13 @@ class UserAPI extends DataSource {
     const res = await this.store.tweets.create({ userId, text });
     return res && res.id ? res.get() : false;
   }
+
+  async getTweetById({ id }) {
+    const res = await this.store.tweets.findOne({
+      where: { id }
+    })
+    return res && res.id ? res.get() : false;
+  }
 }
 
 module.exports = UserAPI;
