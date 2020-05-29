@@ -11,7 +11,12 @@ module.exports = {
   Mutation: {
     login: async (_, { email }, { dataSources }) => {
       const user = await dataSources.userAPI.findOrCreateUser({ email });
-      return user ? Buffer.from(email).toString('base64') : null;
+      if (!user) {
+        return null
+      }
+
+      user.token = Buffer.from(email).toString('base64')
+      return user;
     },
     addTweet: async (_, { text }, { dataSources }) => {
       const tweet = await dataSources.userAPI.addTweet({ text })

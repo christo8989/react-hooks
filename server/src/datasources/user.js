@@ -20,7 +20,7 @@ class UserAPI extends DataSource {
       return null
     }
 
-    const users = await this.store.users.findOrCreate({ where: { email } });
+    const users = await this.store.users.findCreateFind({ where: { email } });
     return users && users[0] ? users[0] : null;
   }
 
