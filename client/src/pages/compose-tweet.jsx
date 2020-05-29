@@ -1,11 +1,9 @@
 import React from "react"
-import useTextInput from "../hooks/input"
-import { Textarea } from "../components/input"
-import Form from "../components/form"
-import styled from 'styled-components'
-import Button from "../components/button"
-import Container from "../components/container"
 import { navigate } from "@reach/router"
+import styled from 'styled-components'
+
+import { useTextInput } from "../hooks"
+import { Button, Container, Textarea, Form } from "../components"
 
 
 const maxWidth = "400px"

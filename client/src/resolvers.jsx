@@ -6,7 +6,8 @@ export const typeDefs = gql`
   }
 
   extend type Mutation {
-    saveToken(token: String!): String
+    saveLoginToken(token: String!): String
+    logout(logout: Boolean): Boolean
   }
 `;
 
@@ -20,14 +21,23 @@ export function initializeCache() {
 
 export const resolvers = {
   Mutation: {
-    saveToken: (_, { token }, { cache }) => {
-      localStorage.setItem("token", token)
+    saveLoginToken: (_, { token }, { cache }) => {
       cache.writeData({
         data: {
           isLoggedIn: !!token,
         },
       });
+      localStorage.setItem("token", token)
       return token
     },
+    logout: (_, __, { cache }) => {
+      localStorage.clear()
+      cache.writeData({
+        data: {
+          isLoggedIn: false,
+        },
+      })
+      return true;
+    }
   },
 };

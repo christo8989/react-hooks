@@ -8,15 +8,15 @@ export const IS_LOGGED_IN = gql`
   }
 `
 
-export const MUTATION_LOGIN = gql`
+export const LOGIN = gql`
   mutation login($email: String!) {
     login(email: $email)
   }
 `
 
-export const SAVE_TOKEN = gql`
-  mutation saveToken($token: String!) {
-    saveToken(token: $token) @client
+export const SAVE_LOGIN_TOKEN = gql`
+  mutation saveLoginToken($token: String!) {
+    saveLoginToken(token: $token) @client
   }
 `
 
@@ -26,10 +26,10 @@ export function useIsLoggedIn() {
 }
 
 export function useLoginMutation() {
-  const [saveToken] = useMutation(SAVE_TOKEN)
-  const loginMutation = useMutation(MUTATION_LOGIN, {
+  const [saveLoginToken] = useMutation(SAVE_LOGIN_TOKEN)
+  const loginMutation = useMutation(LOGIN, {
     onCompleted({ login }) {
-      saveToken({
+      saveLoginToken({
         variables: { token: login }
       })
     }
