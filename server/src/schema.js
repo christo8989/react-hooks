@@ -4,7 +4,6 @@ const typeDefs = gql`
   type User {
     id: ID!
     email: String!
-    token: String!
   }
 
   type Tweet {
@@ -22,7 +21,7 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    login(email: String!): User
+    login(email: String!): String # token
     addTweet(text: String!): TweetUpdateResponse
   }
 
