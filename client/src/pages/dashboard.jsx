@@ -1,10 +1,9 @@
 import React, { Fragment } from "react"
-import { Link } from "@reach/router";
 import styled from 'styled-components'
 import gql from "graphql-tag";
 import { useQuery } from '@apollo/react-hooks';
 
-import { Button, Container, Loading, Tweet } from "../components"
+import { Container, Loading, Tweet, FixedTweetButton } from "../components"
 
 const GET_ALL_TWEETS = gql`
   query tweets($userId: ID) {
@@ -16,13 +15,6 @@ const GET_ALL_TWEETS = gql`
       updatedAt
     }
   }
-`
-
-const TweetButton = styled(Button)`
-  position: fixed;
-  bottom: 0.5rem;
-  right: 0.5rem;
-  border: 2px solid white;
 `
 
 const Tweets = styled(Container)`
@@ -37,9 +29,6 @@ export default function Dashboard() {
 
   return (
     <Fragment>
-      <TweetButton as={Link} to="/compose/tweet">
-        Tweet
-      </TweetButton>
       {
         error ? <div>An error has occured</div> :
           <Tweets>
@@ -52,6 +41,7 @@ export default function Dashboard() {
             }
           </Tweets>
       }
+      <FixedTweetButton />
     </Fragment>
   );
 }

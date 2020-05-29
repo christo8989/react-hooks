@@ -1,5 +1,5 @@
 import React, { Fragment } from "react"
-import { Router } from '@reach/router';
+import { Router, Link } from '@reach/router';
 import styled from 'styled-components'
 
 import Dashboard from './dashboard';
