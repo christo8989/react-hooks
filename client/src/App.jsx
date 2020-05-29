@@ -34,6 +34,7 @@ const GlobalStyles = createGlobalStyle`
 const AppContainer = styled(Container)`
   position: fixed;
   background-color: #03569b;
+  overflow-y: auto;
 `
 
 function App() {

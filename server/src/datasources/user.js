@@ -11,8 +11,13 @@ class UserAPI extends DataSource {
     this.context = config.context;
   }
 
+  getContextUser() {
+    const user = this.context && this.context.user
+    return user;
+  }
+
   async findOrCreateUser({ email: emailArg } = {}) {
-    const email = this.context && this.context.user 
+    const email = this.getContextUser()
       ? this.context.user.email 
       : emailArg
 
@@ -24,17 +29,61 @@ class UserAPI extends DataSource {
     return users && users[0] ? users[0] : null;
   }
 
-  async addTweet({ text }) {
+  async getUserById(id) {
+    const user = await this.store.users.findOne({
+      where: { id }
+    })
+    return user && user.id && user.get()
+  }
+
+  async getUsersByIds(ids) {
+    const $or = ids.map(id => ({ id }))
+    const obj = {
+      where: { $or }
+    }
+    const users = await this.store.users.findAll(obj)
+    return users && users.length ? users.map(get) : []
+  }
+
+  async tweet({ id, text }) {
     const userId = this.context.user.id;
-    const res = await this.store.tweets.create({ userId, text });
-    return res && res.id ? res.get() : false;
+    const values = {
+      userId,
+      text,
+    }
+
+    if (id) {
+      await this.store.tweets.update(values, { where: { id } })
+    } else {
+      const response = await this.store.tweets.create(values)
+      if (!response || !response.id) {
+        return false
+      } else {
+        id = response.id
+      }
+    }
+
+    const tweet = await this.getTweetById({ id })
+    return tweet;
   }
 
   async getTweetById({ id }) {
+    const currentUser = this.getContextUser()
+    if (!currentUser) {
+      return false
+    }
+
     const res = await this.store.tweets.findOne({
       where: { id }
     })
-    return res && res.id ? res.get() : false;
+    if (!res || !res.id) {
+      return false
+    }
+
+    const tweet = res.get()
+    tweet.owner = await this.getUserById(tweet.userId)
+    tweet.isOwner = tweet.owner.id === currentUser.id
+    return tweet
   }
 
   async getTweets({ userId }) {

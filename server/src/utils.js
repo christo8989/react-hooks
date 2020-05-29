@@ -34,6 +34,7 @@ module.exports.createStore = () => {
   const Op = SQL.Op;
   const operatorsAliases = {
     $in: Op.in,
+    $or: Op.or,
   };
 
   const db = new SQL('database', 'username', 'password', {
@@ -68,3 +69,8 @@ module.exports.createStore = () => {
 
   return { users, tweets };
 };
+
+module.exports.toDictionary = (acc, user) => {
+  acc[user.id] = user
+  return acc
+}

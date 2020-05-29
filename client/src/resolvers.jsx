@@ -6,7 +6,7 @@ export const typeDefs = gql`
   }
 
   extend type Mutation {
-    saveLoginToken(token: String!): String
+    saveLoginToken(user: User!): String
     logout(logout: Boolean): Boolean
   }
 `;
@@ -21,7 +21,8 @@ export function initializeCache() {
 
 export const resolvers = {
   Mutation: {
-    saveLoginToken: (_, { token }, { cache }) => {
+    saveLoginToken: (_, { user }, { cache }) => {
+      const token = Buffer.from(user.email).toString('base64')
       cache.writeData({
         data: {
           isLoggedIn: !!token,

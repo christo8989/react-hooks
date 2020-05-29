@@ -17,7 +17,7 @@ export default function Login() {
   function submit(e) {
     e.preventDefault()
     login({ 
-      variables: { email: email.value } 
+      variables: { email: email.value },
     })
   }
 

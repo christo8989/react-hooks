@@ -8,7 +8,7 @@ export default function TweetButton({ className }) {
   return (
     <Button
       className={className}
-      border
+      border={1}
       as={Link}
       to="/compose/tweet"
     >

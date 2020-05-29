@@ -8,7 +8,8 @@ const typeDefs = gql`
 
   type Tweet {
     id: ID!
-    userId: ID!
+    isOwner: Boolean!
+    owner: User!
     text: String!
     createdAt: String!
     updatedAt: String!
@@ -21,8 +22,8 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    login(email: String!): String # token
-    addTweet(text: String!): TweetUpdateResponse
+    login(email: String!): User # ideally a token with user info...
+    tweet(id: ID, text: String!): TweetUpdateResponse
   }
 
   type TweetUpdateResponse {
