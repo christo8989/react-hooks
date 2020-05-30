@@ -1,7 +1,7 @@
 export { useTextInput } from "./input"
 export { 
   useIsLoggedIn, 
-  useLoginMutation, 
+  useLogin, 
   IS_LOGGED_IN, 
   LOGIN,
   SAVE_LOGIN_TOKEN,

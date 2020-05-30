@@ -74,3 +74,12 @@ module.exports.toDictionary = (acc, user) => {
   acc[user.id] = user
   return acc
 }
+
+// NOTE: I know base64 isn't encryption...
+module.exports.encrypt = (value) => {
+  return Buffer.from(value).toString("base64")
+}
+
+module.exports.decrypt = (value) => {
+  return Buffer.from(value, 'base64').toString('ascii')
+}

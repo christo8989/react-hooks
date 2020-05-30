@@ -1,6 +1,6 @@
 const { ApolloServer } = require('apollo-server');
 const typeDefs = require('./schema');
-const { createStore } = require('./utils');
+const { createStore, decrypt } = require('./utils');
 const isEmail = require('isemail');
 const resolvers = require('./resolvers');
 const UserAPI = require('./datasources/user');
@@ -15,7 +15,12 @@ const server = new ApolloServer({
   }),
   context: async ({ req }) => {
     const auth = req.headers && req.headers.authorization || '';
-    const email = Buffer.from(auth, 'base64').toString('ascii');
+    if (!auth) {
+      return { user: null }
+    }
+
+    const base64Email = auth.split(".")[1]
+    const email = decrypt(base64Email)
     if (!isEmail.validate(email)) {
       return { user: null };
     }

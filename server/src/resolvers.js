@@ -1,8 +1,8 @@
-const { toDictionary } = require("./utils")
+const { toDictionary, encrypt } = require("./utils")
 
 module.exports = {
   Query: {
-    me: async (_, __, { dataSources }) => dataSources.userAPI.findOrCreateUser(),
+    me: (_, __, { dataSources }) => dataSources.userAPI.getContextUser(),
     tweet: async (_, { id }, { dataSources }) => dataSources.userAPI.getTweetById({ id }),
     tweets: async (_, { userId }, { dataSources }) => {
       const currentUser = dataSources.userAPI.getContextUser()
@@ -22,8 +22,13 @@ module.exports = {
     }
   },
   Mutation: {
-    // TODO: Change login back to a token/string
-    login: async (_, { email }, { dataSources }) => dataSources.userAPI.findOrCreateUser({ email }),
+    login: async (_, { email }, { dataSources }) => {
+      const user = await dataSources.userAPI.findOrCreateUser({ email })
+      const token = user && user.email && user.id 
+        ? `${encrypt(user.id.toString())}.${encrypt(user.email)}`
+        : "";
+      return token
+    },
     tweet: async (_, { id, text }, { dataSources }) => {
       const tweet = await dataSources.userAPI.tweet({ id, text })
       const success = tweet && !!tweet.id && !!tweet.text

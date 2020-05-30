@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components'
 
 import { Button, Input, Form, Loading } from '../components';
-import { useTextInput, useLoginMutation } from '../hooks';
+import { useTextInput, useLogin } from '../hooks';
 
 const EmailInput = styled(Input)`
   padding: 1rem;
@@ -12,7 +12,7 @@ const EmailInput = styled(Input)`
 
 export default function Login() {
   const email = useTextInput()
-  const [login, { loading, error }] = useLoginMutation()
+  const [login, { loading, error }] = useLogin()
 
   function submit(e) {
     e.preventDefault()

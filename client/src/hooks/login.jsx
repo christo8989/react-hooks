@@ -1,6 +1,7 @@
 import gql from "graphql-tag";
 import { useQuery } from '@apollo/react-hooks';
 import { useMutation } from "@apollo/react-hooks";
+import { GET_TWEETS } from ".";
 
 export const USER_TILE = gql`
   fragment UserTile on User {
@@ -17,16 +18,13 @@ export const IS_LOGGED_IN = gql`
 
 export const LOGIN = gql`
   mutation login($email: String!) {
-    login(email: $email) {
-      ...UserTile
-    }
+    login(email: $email)
   }
-  ${USER_TILE}
 `
 
 export const SAVE_LOGIN_TOKEN = gql`
-  mutation saveLoginToken($user: User!) {
-    saveLoginToken(user: $user) @client
+  mutation saveLoginToken($token: String!) {
+    saveLoginToken(token: $token) @client
   }
 `
 
@@ -35,12 +33,16 @@ export function useIsLoggedIn() {
   return data.isLoggedIn
 }
 
-export function useLoginMutation() {
-  const [saveLoginToken] = useMutation(SAVE_LOGIN_TOKEN)
+export function useLogin() {
+  const [saveLoginToken] = useMutation(SAVE_LOGIN_TOKEN, {
+    refetchQueries: [
+      { query: GET_TWEETS },
+    ],
+  })
   const loginMutation = useMutation(LOGIN, {
     onCompleted({ login }) {
       saveLoginToken({
-        variables: { user: login },
+        variables: { token: login },
       })
     }
   });

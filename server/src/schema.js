@@ -22,7 +22,7 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    login(email: String!): User # ideally a token with user info...
+    login(email: String!): String # token
     tweet(id: ID, text: String!): TweetUpdateResponse
   }
 
